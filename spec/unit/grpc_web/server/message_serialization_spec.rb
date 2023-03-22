@@ -10,12 +10,14 @@ RSpec.describe ::GRPCWeb::MessageSerialization do
         service_method,
         content_type,
         accept,
+        metadata,
         body,
       )
     end
     let(:service) { TestHelloService.new }
     let(:service_method) { :SayHello }
     let(:accept) { '*/*' }
+    let(:metadata) { {} }
     let(:body) do
       [
         ::GRPCWeb::MessageFrame.header_frame(''),
@@ -34,11 +36,13 @@ RSpec.describe ::GRPCWeb::MessageSerialization do
           deserialized_request.service_method,
           deserialized_request.content_type,
           deserialized_request.accept,
+          deserialized_request.metadata,
         ]).to eq([
           request.service,
           request.service_method,
           request.content_type,
           request.accept,
+          request.metadata,
         ])
       end
 
@@ -57,11 +61,13 @@ RSpec.describe ::GRPCWeb::MessageSerialization do
           deserialized_request.service_method,
           deserialized_request.content_type,
           deserialized_request.accept,
+          deserialized_request.metadata,
         ]).to eq([
           request.service,
           request.service_method,
           request.content_type,
           request.accept,
+          request.metadata,
         ])
       end
 

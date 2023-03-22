@@ -17,7 +17,8 @@ module GRPCWeb::TextCoder
       base64_chunks = request.body.scan(%r{[a-zA-Z0-9+/]+={0,2}})
       decoded = base64_chunks.map { |chunk| Base64.decode64(chunk) }.join
       ::GRPCWeb::GRPCWebRequest.new(
-        request.service, request.service_method, request.content_type, request.accept, decoded,
+        request.service, request.service_method, request.content_type,
+        request.accept, request.metadata, decoded,
       )
     end
 
