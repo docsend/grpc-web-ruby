@@ -29,7 +29,10 @@ module GRPCWeb::GRPCRequestProcessor
       service_method = ::GRPC::GenericService.underscore(grpc_call.request.service_method.to_s)
       begin
         if grpc_call.request.service.method(service_method.to_sym).arity == 1
-          response = grpc_call.request.service.send(service_method, decoder.decode(grpc_call))
+          response = grpc_call.request.service.send(
+            service_method,
+            decoder.decode(grpc_call.request),
+          )
         else
           response = grpc_call.request.service.send(
             service_method, decoder.decode(grpc_call), grpc_call,
