@@ -32,10 +32,13 @@ module GRPCWeb::GRPCRequestProcessor
       service_method = ::GRPC::GenericService.underscore(request.service_method.to_s)
 
       begin
-        response = request.service.send(service_method, request.body, {metadata: request.metadata})
+        add_request_metadata(request)
+        response = request.service.send(service_method, request.body)
       rescue StandardError => e
         ::GRPCWeb.on_error.call(e, request.service, request.service_method)
         response = e # Return exception as body if one is raised
+      ensure
+        remove_request_metadata(request)
       end
       ::GRPCWeb::GRPCWebResponse.new(response_content_type(request), response)
     end
@@ -47,6 +50,14 @@ module GRPCWeb::GRPCRequestProcessor
       else
         request.accept
       end
+    end
+
+    def add_request_metadata(grpc_web_request)
+      Thread.current[grpc_web_request.body.object_id.to_s.to_sym] = grpc_web_request.metadata
+    end
+
+    def remove_request_metadata(grpc_web_request)
+      Thread.current[grpc_web_request.body.object_id.to_s.to_sym] = nil
     end
   end
 end
