@@ -11,6 +11,7 @@ RSpec.describe ::GRPCWeb::GRPCRequestProcessor do
     let(:serialization) { ::GRPCWeb::MessageSerialization }
 
     let(:decoded_request) { instance_double(::GRPCWeb::GRPCWebRequest) }
+    let(:metadata) { {} }
     let(:unframed_request) { instance_double(::GRPCWeb::GRPCWebRequest) }
     let(:deserialized_request) do
       instance_double(
@@ -19,6 +20,7 @@ RSpec.describe ::GRPCWeb::GRPCRequestProcessor do
         service_method: service_method,
         body: instance_double(HelloRequest),
         content_type: request_content_type,
+        metadata: metadata,
         accept: request_accept,
       )
     end
@@ -58,7 +60,9 @@ RSpec.describe ::GRPCWeb::GRPCRequestProcessor do
     end
 
     it 'executes the request' do
-      expect(service).to receive(:say_hello).with(deserialized_request.body)
+      expect(service).to receive(:say_hello).with(
+        deserialized_request.body, deserialized_request.metadata,
+      )
       process
     end
 

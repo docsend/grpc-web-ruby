@@ -8,11 +8,5 @@ module GRPCWeb
     :accept,
     :metadata,
     :body,
-  ) do
-
-    def self.get_metadata(request)
-      Thread.current[request.object_id.to_s.to_sym]
-    end
-  end
-
+  )
 end
