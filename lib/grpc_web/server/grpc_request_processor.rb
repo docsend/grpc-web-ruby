@@ -32,7 +32,7 @@ module GRPCWeb::GRPCRequestProcessor
       service_method = ::GRPC::GenericService.underscore(request.service_method.to_s)
 
       begin
-        response = request.service.send(service_method, request.body)
+        response = request.service.send(service_method, request.body, {metadata: request.metadata})
       rescue StandardError => e
         ::GRPCWeb.on_error.call(e, request.service, request.service_method)
         response = e # Return exception as body if one is raised
