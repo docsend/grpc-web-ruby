@@ -2,6 +2,7 @@
 
 require 'grpc_web/content_types'
 require 'grpc_web/server/rack_handler'
+require 'grpc_web/grpc_web_call'
 
 RSpec.describe(::GRPCWeb::RackHandler) do
   subject(:call) { described_class.call(service, service_method, env) }
@@ -46,13 +47,16 @@ RSpec.describe(::GRPCWeb::RackHandler) do
 
     it 'calls the request processor with the modified request' do
       expect(::GRPCWeb::GRPCRequestProcessor).to receive(:process)
-        .with(::GRPCWeb::GRPCWebRequest.new(
-                service,
-                service_method,
-                content_type,
-                accept_header,
+        .with(::GRPCWeb::GRPCWebCall.new(
+                ::GRPCWeb::GRPCWebRequest.new(
+                  service,
+                  service_method,
+                  content_type,
+                  accept_header,
+                  request_body,
+                ),
                 metadata,
-                request_body,
+                started: false,
               ))
       call
     end
@@ -78,13 +82,16 @@ RSpec.describe(::GRPCWeb::RackHandler) do
 
       it 'passes the metadata to the service handler' do
         expect(::GRPCWeb::GRPCRequestProcessor).to receive(:process)
-          .with(::GRPCWeb::GRPCWebRequest.new(
-                  service,
-                  service_method,
-                  content_type,
-                  accept_header,
+          .with(::GRPCWeb::GRPCWebCall.new(
+                  ::GRPCWeb::GRPCWebRequest.new(
+                    service,
+                    service_method,
+                    content_type,
+                    accept_header,
+                    request_body,
+                  ),
                   metadata,
-                  request_body,
+                  started: false,
                 ))
         call
       end
@@ -110,13 +117,16 @@ RSpec.describe(::GRPCWeb::RackHandler) do
 
         it 'passes the metadata to the service handler decoded' do
           expect(::GRPCWeb::GRPCRequestProcessor).to receive(:process)
-            .with(::GRPCWeb::GRPCWebRequest.new(
-                    service,
-                    service_method,
-                    content_type,
-                    accept_header,
+            .with(::GRPCWeb::GRPCWebCall.new(
+                    ::GRPCWeb::GRPCWebRequest.new(
+                      service,
+                      service_method,
+                      content_type,
+                      accept_header,
+                      request_body,
+                    ),
                     metadata,
-                    request_body,
+                    started: false,
                   ))
           call
         end

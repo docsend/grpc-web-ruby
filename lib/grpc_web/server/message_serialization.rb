@@ -28,7 +28,6 @@ module GRPCWeb::MessageSerialization
         request.service_method,
         request.content_type,
         request.accept,
-        request.metadata,
         request_proto,
       )
     end

@@ -12,7 +12,6 @@ RSpec.describe GRPCWeb::TextCoder do
         service_method,
         content_type,
         accept,
-        metadata,
         body,
       )
     end
@@ -46,13 +45,11 @@ RSpec.describe GRPCWeb::TextCoder do
           decoded_request.service_method,
           decoded_request.content_type,
           decoded_request.accept,
-          decoded_request.metadata,
         ]).to eq [
           request.service,
           request.service_method,
           request.content_type,
           request.accept,
-          request.metadata,
         ]
       end
 

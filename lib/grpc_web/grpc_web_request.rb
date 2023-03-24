@@ -6,7 +6,6 @@ module GRPCWeb
     :service_method,
     :content_type,
     :accept,
-    :metadata,
     :body,
   )
 end
