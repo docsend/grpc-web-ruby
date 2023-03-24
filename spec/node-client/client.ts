@@ -1,7 +1,7 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { NodeHttpTransport } from "@improbable-eng/grpc-web-node-http-transport";
 
-import {HelloServiceClient} from './pb-ts/hello_pb_service';
+import {HelloServiceClient} from './pb-ts/HelloServiceClientPb';
 import {HelloRequest, EmptyRequest} from './pb-ts/hello_pb';
 
 // Required for grpc-web in a NodeJS environment (vs. browser)

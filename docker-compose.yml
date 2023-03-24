@@ -2,6 +2,7 @@ version: '3.2'
 
 services:
   ruby:
+    platform: linux/amd64
     build: .
     entrypoint: ./entrypoint.rb
     expose:

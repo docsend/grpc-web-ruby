@@ -1,6 +1,7 @@
-FROM ruby:2.5.7
+FROM ruby:2.7.0
 
 # Install dependency packages
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get update && apt-get install -y \
   curl \
   fonts-liberation \
@@ -25,7 +26,10 @@ RUN apt-get update && apt-get install -y \
   libxss1 \
   libxtst6 \
   nodejs \
-  xdg-utils
+  xdg-utils \
+  nodejs \
+  libvulkan1 \
+  libu2f-udev
 
 # Install Chrome
 RUN wget --quiet https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
@@ -34,9 +38,7 @@ RUN wget --quiet https://dl.google.com/linux/direct/google-chrome-stable_current
     && rm -f /google-chrome-stable_current_amd64.deb
 
 # Install Yarn
-ENV PATH=/root/.yarn/bin:$PATH
-RUN touch ~/.bashrc && \
-    curl -o- -L https://yarnpkg.com/install.sh | sh
+RUN npm install --global yarn
 
 # Setup project home directory
 RUN mkdir /app

@@ -53,9 +53,9 @@ task :compile_protos_ts do
     "-v \"#{defs_dir}:/defs\"",
     '--entrypoint protoc',
     'namely/protoc-all',
-    '--plugin=protoc-gen-ts=/usr/bin/protoc-gen-ts',
+    '--plugin=protoc-gen-ts=/usr/bin/protoc-gen-ts_proto',
     '--js_out=import_style=commonjs,binary:/defs/pb-ts',
-    '--ts_out=service=grpc-web:/defs/pb-ts',
+    '--grpc-web_out=import_style=typescript,mode=grpcweb:/defs/pb-ts',
     '-I /defs/pb-src',
     proto_input_files.join(' '),
   ].join(' ')
