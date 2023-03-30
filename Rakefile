@@ -55,9 +55,9 @@ task :compile_protos_ts do
     "-v \"#{defs_dir}:/defs\"",
     '--entrypoint protoc',
     NAMELY_DOCKER_IMAGE,
-    '--plugin=protoc-gen-ts=/usr/bin/protoc-gen-ts_proto',
+    '--plugin=protoc-gen-ts=/usr/bin/protoc-gen-ts',
     '--js_out=import_style=commonjs,binary:/defs/pb-ts',
-    '--grpc-web_out=import_style=typescript,mode=grpcweb:/defs/pb-ts',
+    '--ts_out=service=grpc-web:/defs/pb-ts',
     '-I /defs/pb-src',
     proto_input_files.join(' '),
   ].join(' ')

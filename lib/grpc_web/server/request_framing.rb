@@ -10,8 +10,7 @@ module GRPCWeb::RequestFraming
     def unframe_request(request)
       frames = message_framing.unpack_frames(request.body)
       ::GRPCWeb::GRPCWebRequest.new(
-        request.service, request.service_method, request.content_type,
-        request.accept, request.metadata, frames,
+        request.service, request.service_method, request.content_type, request.accept, frames,
       )
     end
 

@@ -5,6 +5,7 @@ require 'rack'
 require 'rack/request'
 require 'grpc_web/content_types'
 require 'grpc_web/grpc_web_request'
+require 'grpc_web/grpc_web_call'
 require 'grpc_web/server/error_callback'
 require 'grpc_web/server/grpc_request_processor'
 require "base64"
@@ -28,7 +29,7 @@ module GRPCWeb::RackHandler
       accept = rack_request.get_header(ACCEPT_HEADER)
       metadata = Hash[
         *env.select { |k, _v| k.start_with? 'HTTP_' }
-            .reject { |k, _v| k.eql? 'HTTP_ACCEPT' }
+            .reject { |k, _v| k.eql? ACCEPT_HEADER }
             .collect { |k, v| [k.sub(/^HTTP_/, ''), v] }
             .collect { |k, v| [k, k.end_with?('_BIN') ? Base64.decode64(v) : v] }
             .collect { |k, v| [k.split('_').collect(&:downcase).join('_'), v] }
@@ -36,6 +37,7 @@ module GRPCWeb::RackHandler
             .flatten
       ]
       body = rack_request.body.read
+
       request = GRPCWeb::GRPCWebRequest.new(service, service_method, content_type, accept, body)
       call = GRPCWeb::GRPCWebCall.new(request, metadata, started: false)
       response = GRPCWeb::GRPCRequestProcessor.process(call)

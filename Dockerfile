@@ -1,7 +1,6 @@
-FROM ruby:2.7.0
+FROM ruby:2.5.7
 
 # Install dependency packages
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get update && apt-get install -y \
   curl \
   fonts-liberation \
@@ -27,7 +26,6 @@ RUN apt-get update && apt-get install -y \
   libxtst6 \
   nodejs \
   xdg-utils \
-  nodejs \
   libvulkan1 \
   libu2f-udev
 
@@ -38,7 +36,9 @@ RUN wget --quiet https://dl.google.com/linux/direct/google-chrome-stable_current
     && rm -f /google-chrome-stable_current_amd64.deb
 
 # Install Yarn
-RUN npm install --global yarn
+ENV PATH=/root/.yarn/bin:$PATH
+RUN touch ~/.bashrc && \
+    curl -o- -L https://yarnpkg.com/install.sh | sh
 
 # Setup project home directory
 RUN mkdir /app
@@ -48,7 +48,7 @@ WORKDIR /app
 COPY .ruby-version grpc-web.gemspec Gemfile Gemfile.lock /app/
 COPY lib/grpc_web/version.rb /app/lib/grpc_web/
 
-RUN gem install bundler \
+RUN gem install bundler -v 2.3.26 \
  && bundle config --global frozen 1 \
  && bundle install -j4 --retry 3 \
  # Remove unneeded files (cached *.gem, *.o, *.c)
