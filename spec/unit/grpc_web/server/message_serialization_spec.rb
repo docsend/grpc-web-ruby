@@ -16,7 +16,6 @@ RSpec.describe ::GRPCWeb::MessageSerialization do
     let(:service) { TestHelloService.new }
     let(:service_method) { :SayHello }
     let(:accept) { '*/*' }
-    let(:metadata) { {} }
     let(:body) do
       [
         ::GRPCWeb::MessageFrame.header_frame(''),

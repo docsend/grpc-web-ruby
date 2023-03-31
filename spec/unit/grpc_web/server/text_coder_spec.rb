@@ -18,7 +18,6 @@ RSpec.describe GRPCWeb::TextCoder do
     let(:service) { instance_double(TestHelloService) }
     let(:service_method) { :SayHello }
     let(:accept) { '*/*' }
-    let(:metadata) { {} }
     let(:chunk_contents) { ['Hello Noa!', 'this is another chunk'] }
 
     context('when the content type is non encoded') do
