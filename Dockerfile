@@ -1,4 +1,4 @@
-FROM ruby:2.5.7
+FROM ruby:3.3.14
 
 # Install dependency packages
 RUN apt-get update && apt-get install -y \
@@ -48,7 +48,7 @@ WORKDIR /app
 COPY .ruby-version grpc-web.gemspec Gemfile Gemfile.lock /app/
 COPY lib/grpc_web/version.rb /app/lib/grpc_web/
 
-RUN gem install bundler -v 2.3.26 \
+RUN gem install bundler -v 2.5.22 \
  && bundle config --global frozen 1 \
  && bundle install -j4 --retry 3 \
  # Remove unneeded files (cached *.gem, *.o, *.c)

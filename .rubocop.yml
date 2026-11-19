@@ -1,9 +1,10 @@
-require: rubocop-rspec
+plugins: rubocop-rspec
 inherit_from: .rubocop_todo.yml
 
 AllCops:
+  NewCops: disable
   Exclude:
-    - 'spec/pb-ruby/goodbye_pb.rb'
+    - 'spec/pb-ruby/**/*'
     - vendor/bundle/**/*
 
 Style/TrailingCommaInArguments:
@@ -61,5 +62,7 @@ RSpec/ExampleLength:
   Max: 15
 RSpec/NestedGroups:
   Max: 5
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
+  Enabled: false
+RSpec/SpecFilePathSuffix:
   Enabled: false
